@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des techniciens</title>
+</head>
+<body>
+    <h1>Liste des techniciens</h1>
+
+    <ul>
+        {% for technicien in techniciens %}
+            <li>{{ technicien.getNom() }}</li>
+        {% else %}
+            <li>Aucun tech n'a été trouvé.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
