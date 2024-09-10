@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Technicien;
+use App\Entity\Visite;
 use App\Repository\TechnicienRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -63,6 +64,44 @@ class TechnicienController extends AbstractController
     return $this->render('technicien/destechniciens.html.twig', [
         'techniciens' => $techniciens,
     ]);
+
+    }
+
+    #[Route('/technicien/creervisite', name: 'app_technicien_creer_visite')]
+    public function creerVisite(EntityManagerInterface $entityManager): Response
+    {
+        // Création de l'objet technicien
+        $technicien = new Technicien();
+        $technicien->setNom('technicien 01');
+        $technicien->setPrenom('Robert');
+
+        // Persister le technicien
+        $entityManager->persist($technicien);
+
+         // Les états des visites
+         $etats = ['en attente', 'en cours', 'terminé'];
+
+        for ($i = 1; $i <= 3; $i++) {
+            $visite = new Visite();
+            $visite->setEtat($etats[$i]); // Assignation de l'état spécifique à chaque visite
+            $visite->setDureeTotale(60);  // Exemple de durée
+
+            // Assigner la visite au technicien
+            $visite->setLeTechnicien($technicien);
+
+            // Ajouter la visite à la collection de visites du technicien
+            $technicien->addLesVisite($visite);
+
+            // Persister la visite
+            $entityManager->persist($visite);
+        }
+
+        // Flusher pour enregistrer dans la base de données
+        $entityManager->flush();
+
+        return new Response("Technicien et 3 visites créés avec succès.");
+
+
 
     }
 }
