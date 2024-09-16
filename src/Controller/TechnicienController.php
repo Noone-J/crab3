@@ -81,7 +81,7 @@ class TechnicienController extends AbstractController
          // Les états des visites
          $etats = ['en attente', 'en cours', 'terminé'];
 
-        for ($i = 1; $i <= 3; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $visite = new Visite();
             $visite->setEtat($etats[$i]); // Assignation de l'état spécifique à chaque visite
             $visite->setDureeTotale(60);  // Exemple de durée
